@@ -10,6 +10,10 @@ function questionMarks(num) {
         }
         return arr.toString();
 }
+// this will convert object value pairs to put into SQL code
+function objSQL(ob) {
+        let arr = [];
+}
 
 let orm = {
         selectAll: function (tableInput, cb) {
@@ -38,13 +42,30 @@ let orm = {
                                 throw err
                         }
                         cb(result);
-                })
+                });
         },
 
-        
 
-        // updateOne:
+
+        update: function (table, objColVals, condition, cb) {
+                let queryString = `UPDATE ${table}`;
+                queryString += " SET ";
+                queryString += objSQL(objColVals);
+                queryString += " WHERE ";
+                queryString += condition;
+
+                console.log(queryString);
+                connection.query(queryString, (err, res) => {
+                        if (err) {
+                                throw err;
+                        }
+                        cb(res);
+                });
+        }
+
+
+        // delete function for later
 }
 
-
+// exporting the orm
 module.exports = orm;
