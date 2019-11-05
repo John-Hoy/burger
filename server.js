@@ -8,8 +8,20 @@ let app = express();
 
 const PORT = process.env.PORT || 3000;
 
+// static server content
 app.use(express.static("public"));
 
-app.use("/", routes);
+// body parser
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 
-app.listen(port);	
+// handlebars
+app.engine("handlebars", exphbs({ defaultLayout: "main"}));
+app.set("view engine", "handlebars");
+
+// import routes
+app.use (routes);
+
+app.listen(PORT, function(){
+        console.log(`Server listening on port ${PORT}`);
+});	
